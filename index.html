@@ -49,6 +49,17 @@
       align-items: center;
       padding: 1.5rem 4rem;
       mix-blend-mode: multiply;
+      transition: transform 0.4s ease, background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+    nav.nav-hidden {
+      transform: translateY(-100%);
+    }
+    nav.nav-scrolled {
+      mix-blend-mode: normal;
+      background: rgba(250,248,244,0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 4rem;
+      box-shadow: 0 1px 20px rgba(0,0,0,0.06);
     }
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
@@ -736,7 +747,7 @@
 
     <div class="hero-image-wrap">
       <div class="hero-image-frame">
-        <img src="1768303805279.jpg" alt="Aabha Girdhar" class="hero-img" />
+        <img src="aabha.jpg" alt="Aabha Girdhar" class="hero-img" />
         <div class="hero-float-card">
           <div class="float-label">Currently at</div>
           <div class="float-value">VIT Vellore</div>
@@ -871,6 +882,24 @@
   </footer>
 
   <script>
+    // ── Hide/show nav on scroll ───────────────────────────────────────
+    const nav = document.querySelector('nav');
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        nav.classList.add('nav-hidden');
+      } else {
+        nav.classList.remove('nav-hidden');
+      }
+      if (currentScrollY > 50) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+      lastScrollY = currentScrollY;
+    });
+
     // ── Reading progress bar ──────────────────────────────────────────
     const progressBar = document.getElementById('progress-bar');
     window.addEventListener('scroll', () => {
