@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aabha Girdhar — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f4;
+      --deep: #1a1410;
+      --terra: #c4714a;
+      --gold: #c9a84c;
+      --muted: #8a7d6b;
+      --blush: #e8cfc0;
+      --sage: #7a8c6e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* Noise Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      mix-blend-mode: multiply;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--deep);
+      text-decoration: none;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.3s forwards;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.5s forwards;
+    }
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--terra); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20vw;
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(196, 113, 74, 0.08);
+      pointer-events: none;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--terra);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--terra);
+    }
+
+    .hero-bio {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+    .btn-primary {
+      background: var(--deep);
+      color: var(--warm-white);
+      padding: 0.9rem 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--terra);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-secondary {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .btn-secondary:hover { color: var(--terra); }
+    .btn-secondary::after {
+      content: '→';
+      transition: transform 0.3s ease;
+    }
+    .btn-secondary:hover::after { transform: translateX(4px); }
+
+    /* Hero Image */
+    .hero-image-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.4s forwards;
+    }
+
+    .hero-image-frame {
+      position: relative;
+      width: 380px;
+      height: 480px;
+    }
+    .hero-image-frame::before {
+      content: '';
+      position: absolute;
+      top: 20px; left: 20px;
+      right: -20px; bottom: -20px;
+      border: 1.5px solid var(--blush);
+      z-index: 0;
+    }
+    .hero-image-frame::after {
+      content: '';
+      position: absolute;
+      top: -10px; right: -10px;
+      width: 80px; height: 80px;
+      background: var(--gold);
+      opacity: 0.15;
+      z-index: 0;
+    }
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      position: relative;
+      z-index: 1;
+      filter: sepia(8%) saturate(90%);
+    }
+
+    .hero-float-card {
+      position: absolute;
+      bottom: 40px;
+      left: -40px;
+      background: var(--warm-white);
+      border: 1px solid var(--blush);
+      padding: 1.2rem 1.5rem;
+      z-index: 2;
+      animation: float 4s ease-in-out infinite;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    }
+    .float-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--terra);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .float-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--deep);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.8s forwards;
+    }
+    .scroll-hint span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--terra), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* SECTION COMMON */
+    section { padding: 7rem 4rem; }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--terra);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .stat-card {
+      border-top: 1px solid var(--blush);
+      padding-top: 1.2rem;
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--terra);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      font-weight: 300;
+    }
+
+    .about-right p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--warm-white); }
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .exp-card {
+      border: 1px solid var(--blush);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--terra);
+      transition: height 0.4s ease;
+    }
+    .exp-card:hover::before { height: 100%; }
+    .exp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    .exp-org {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .exp-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.8rem;
+    }
+    .exp-period {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .exp-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+    .dot-code { background: rgba(196,113,74,0.1); }
+    .dot-vinno { background: rgba(122,140,110,0.1); }
+
+    /* EDUCATION */
+    #education {
+      background: var(--deep);
+      color: var(--warm-white);
+    }
+    #education .section-label { color: var(--gold); }
+    #education .section-label::after { background: var(--gold); }
+    #education .section-title { color: var(--warm-white); }
+
+    .edu-card {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .edu-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.3;
+      line-height: 1;
+    }
+    .edu-details { padding-top: 0.5rem; }
+    .edu-institute {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .edu-degree {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .edu-period {
+      font-size: 0.85rem;
+      color: rgba(250,248,244,0.4);
+      font-weight: 300;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--cream); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .skill-pill {
+      border: 1px solid var(--blush);
+      padding: 1rem 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: all 0.3s ease;
+      text-align: center;
+      cursor: default;
+    }
+    .skill-pill:hover {
+      background: var(--terra);
+      color: var(--warm-white);
+      border-color: var(--terra);
+      transform: translateY(-2px);
+    }
+
+    /* CONTACT */
+    #contact {
+      background: var(--warm-white);
+      text-align: center;
+    }
+    #contact .section-label {
+      justify-content: center;
+    }
+    #contact .section-label::after { display: none; }
+    #contact .section-label::before {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--terra);
+    }
+    #contact .section-title { margin-bottom: 1rem; }
+    #contact p {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1rem 2rem;
+      border: 1px solid var(--blush);
+      text-decoration: none;
+      color: var(--deep);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .contact-link:hover {
+      background: var(--deep);
+      color: var(--warm-white);
+      border-color: var(--deep);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--deep);
+      color: rgba(250,248,244,0.3);
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Reading progress bar */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--terra), var(--gold));
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* Stat counter animation */
+    .stat-number {
+      transition: color 0.3s ease;
+    }
+    .stat-card:hover .stat-number {
+      color: var(--deep);
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stat-number.counting {
+      animation: countUp 0.4s ease forwards;
+    }
+
+    /* Highlighted text underline on section titles */
+    .section-title em {
+      position: relative;
+      display: inline-block;
+    }
+    .section-title em::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 2px;
+      width: 0; height: 1px;
+      background: var(--terra);
+      transition: width 0.7s ease 0.3s;
+    }
+    .reveal.visible .section-title em::after { width: 100%; }
+
+    /* Skill pill shimmer */
+    .skill-pill {
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-pill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+    }
+    .skill-pill:hover::after { left: 160%; }
+
+    /* Exp card tag */
+    .exp-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(196,113,74,0.08);
+      color: var(--terra);
+      border: 1px solid rgba(196,113,74,0.2);
+      padding: 0.25rem 0.6rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Contact link icon circle */
+    .contact-link span:first-child {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(196,113,74,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      transition: background 0.3s ease;
+    }
+    .contact-link:hover span:first-child {
+      background: rgba(250,248,244,0.15);
+    }
+
+    /* Subtle gradient divider between sections */
+    section + section {
+      position: relative;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 2rem; }
+      #hero { grid-template-columns: 1fr; padding: 6rem 2rem 4rem; gap: 3rem; }
+      .hero-image-wrap { order: -1; }
+      .hero-image-frame { width: 280px; height: 360px; }
+      .hero-float-card { left: -10px; }
+      #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+      section { padding: 5rem 2rem; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">AG</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Available for Opportunities</div>
+      <h1 class="hero-name">Aabha<br/><em>Girdhar</em></h1>
+      <p class="hero-bio">
+        B.Tech CSE student at VIT Vellore — building at the intersection of technology and meaningful leadership. Core committee member at CodeChef-VIT and VinnovateIT.
+      </p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary"><span>Get in Touch</span></a>
+        <a href="#experience" class="btn-secondary">View Work</a>
+      </div>
+    </div>
+
+    <div class="hero-image-wrap">
+      <div class="hero-image-frame">
+        <img src="1768303805279.jpg" alt="Aabha Girdhar" class="hero-img" />
+        <div class="hero-float-card">
+          <div class="float-label">Currently at</div>
+          <div class="float-value">VIT Vellore</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+    <div class="hero-bg-text">AG</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Building in Tech,<br/>Leading Through<br/><em style="font-style:italic;color:var(--terra)">Management</em></h2>
+      <div class="about-stats">
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-number">2025</div>
+          <div class="stat-label">Started B.Tech at VIT</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Core Committee Roles</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-number">4+</div>
+          <div class="stat-label">Months of Experience</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-4">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Ambition & Drive</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right reveal reveal-delay-2">
+      <p>
+        I'm Aabha — a Computer Science student at Vellore Institute of Technology with a passion for building things that matter. Whether it's through code, community, or creative problem-solving, I'm always looking to make an impact.
+      </p>
+      <p>
+        I serve as a Core Committee Member at both CodeChef-VIT and VinnovateIT — two of the most vibrant tech communities on campus. These roles have sharpened my ability to lead teams, organize events, and drive technical initiatives from idea to execution.
+      </p>
+      <p>
+        I believe great technology is built by people who combine technical depth with human empathy. That's the kind of engineer and leader I'm becoming.
+      </p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="reveal">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">Where I've<br/>Been Building</h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card reveal reveal-delay-1">
+        <div class="exp-dot dot-code">💻</div>
+        <div class="exp-tag">Active · 2026</div>
+        <div class="exp-org">CodeChef-VIT</div>
+        <div class="exp-role">Core Committee Member</div>
+        <div class="exp-period">January 2026 – Present · Tamil Nadu, India</div>
+        <p style="margin-top:1rem;font-size:0.88rem;color:var(--muted);font-weight:300;line-height:1.7;">
+          Contributing to one of VIT's premier competitive programming communities — organizing contests, mentoring peers, and fostering a culture of algorithmic thinking on campus.
+        </p>
+      </div>
+      <div class="exp-card reveal reveal-delay-2">
+        <div class="exp-dot dot-vinno">🚀</div>
+        <div class="exp-tag">Active · 2026</div>
+        <div class="exp-org">VinnovateIT</div>
+        <div class="exp-role">Core Committee Member</div>
+        <div class="exp-period">January 2026 – Present · Tamil Nadu, India</div>
+        <p style="margin-top:1rem;font-size:0.88rem;color:var(--muted);font-weight:300;line-height:1.7;">
+          Driving innovation initiatives at VIT's tech community — collaborating on projects, leading workshops, and bridging the gap between academic learning and real-world tech solutions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="reveal">
+      <div class="section-label">Education</div>
+      <h2 class="section-title">Academic<br/>Foundation</h2>
+    </div>
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-year">VIT</div>
+      <div class="edu-details">
+        <div class="edu-institute">Vellore Institute<br/>of Technology</div>
+        <div class="edu-degree">Bachelor of Technology — CSE Core</div>
+        <div class="edu-period">January 2025 – May 2029 · Vellore, Tamil Nadu</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="section-label">Skills & Interests</div>
+      <h2 class="section-title">What I Work With</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-pill reveal reveal-delay-1">Computer Science</div>
+      <div class="skill-pill reveal reveal-delay-1">Problem Solving</div>
+      <div class="skill-pill reveal reveal-delay-2">Team Leadership</div>
+      <div class="skill-pill reveal reveal-delay-2">Event Management</div>
+      <div class="skill-pill reveal reveal-delay-3">Tech Communities</div>
+      <div class="skill-pill reveal reveal-delay-3">Innovation</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title reveal">Let's Connect</h2>
+    <p class="reveal reveal-delay-1">I'm always open to new opportunities, collaborations, and conversations.</p>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="/cdn-cgi/l/email-protection#0c6d6d6e646d3d3b3c3b4c6b616d6560226f6361" class="contact-link">
+        <span>✉</span> <span class="__cf_email__" data-cfemail="6b0a0a09030a5a5c5b5c2b0c060a020745080406">[email&#160;protected]</span>
+      </a>
+      <a href="https://www.linkedin.com/in/aabhagirdhar-74b776372" target="_blank" class="contact-link">
+        <span>in</span> LinkedIn Profile
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Aabha Girdhar — Crafted with care</p>
+  </footer>
+
+  <script>
+    // ── Reading progress bar ──────────────────────────────────────────
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total * 100) + '%';
+    });
+
+    // ── Animated number counter ───────────────────────────────────────
+    function animateCount(el, target, duration) {
+      if (isNaN(target)) return; // skip ∞ symbol
+      const start = 0;
+      const startTime = performance.now();
+      el.classList.add('counting');
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        // preserve trailing '+' or other suffix
+        el.textContent = current + (el.dataset.suffix || '');
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = el.dataset.full;
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ── Scroll reveal + counter trigger ──────────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const statCards = document.querySelectorAll('.stat-card');
+
+    // Prep stat cards with data attributes
+    statCards.forEach(card => {
+      const numEl = card.querySelector('.stat-number');
+      if (!numEl) return;
+      const raw = numEl.textContent.trim();
+      numEl.dataset.full = raw;
+      const numeric = parseFloat(raw.replace(/[^0-9.]/g, ''));
+      const suffix = raw.replace(/[0-9.]/g, '');
+      numEl.dataset.target = numeric;
+      numEl.dataset.suffix = suffix;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          // Trigger counter if this is a stat-card
+          const numEl = entry.target.querySelector('.stat-number');
+          if (numEl && numEl.dataset.target) {
+            animateCount(numEl, parseFloat(numEl.dataset.target), 1200);
+          }
+
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
